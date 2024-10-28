@@ -99,10 +99,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.name.Contains("GhostBall"))
+        if (col.collider.name.Contains("Ghost"))
         {
             removeLife();
         }
+
         if (isJumping)
         {
             isJumping = false;
@@ -141,6 +142,12 @@ public class PlayerController : MonoBehaviour
                 images[2].enabled = true;
                 break;
         }
+    }
+
+    public void addLife ()
+    {
+        lives++;
+        updateLivesUI();
     }
     public void removeLife()
     {
