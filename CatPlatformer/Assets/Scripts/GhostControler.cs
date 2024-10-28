@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GhostControler : MonoBehaviour
 {
+    [SerializeField] float fireTimer = 0.5f;
+    float fireCountdown = 0;
+    [SerializeField] GameObject projectilePrefab;
+    [SerializeField] int strength;
+    bool isAlive = true;
     Animator animator;
     public float distanceTime;
     public float speed;
