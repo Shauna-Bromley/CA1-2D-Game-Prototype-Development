@@ -13,7 +13,7 @@ public class GhostControler : MonoBehaviour
     public float speed;
 
     float fireCountdown = 0;
-    float direction = -1;
+    float direction = 1;
     float timeInDirection;
     float timeToDie = 1;
     float deathTime = 1;
@@ -28,7 +28,6 @@ public class GhostControler : MonoBehaviour
         animator = GetComponent<Animator>();
         timeInDirection = distanceTime;
         animator.SetFloat("Move X",direction);
-        
     }
 
     // Update is called once per frame
@@ -42,12 +41,12 @@ public class GhostControler : MonoBehaviour
             timeInDirection -= Time.deltaTime;
             if (timeInDirection < 0)
             {
-                direction *= -1;
+                direction = direction * -1;
                 timeInDirection = distanceTime;
                 animator.SetFloat("Move X", direction);
             }
             RaycastHit2D hit = Physics2D.Raycast(position, new Vector2(direction, 0),
-                5f, LayerMask.GetMask("Player"));
+                4f, LayerMask.GetMask("Player"));
             if (hit.collider != null)
             {
                 if (hit.collider.GetComponent<PlayerController>() != null)

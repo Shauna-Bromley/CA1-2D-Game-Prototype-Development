@@ -72,6 +72,20 @@ public class PlayerController : MonoBehaviour
             
 
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+                AudioListener.pause = false;
+            }
+            else
+            {
+                Time.timeScale = 0;
+                AudioListener.pause = true;
+            }
+        }
+        
         if (lives == 0)
         {
             Time.timeScale = 0;
@@ -82,6 +96,7 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+        
 
 
     }
