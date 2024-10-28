@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
         {
             totalGhosts = GameObject.FindGameObjectsWithTag("Ghost").Length;
         }
+        ghostText.text = ghosts + "/" + totalGhosts;
     }
 
     // Update is called once per frame
@@ -91,5 +92,6 @@ public class PlayerController : MonoBehaviour
     public void AddGhost()
     {
         ghosts++;
+        ghostText.text = ghosts + "/" + totalGhosts;
     }
 }

@@ -1386,7 +1386,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -672.5, y: 282}
+  m_AnchoredPosition: {x: -672.5, y: 288.7}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1856973373
@@ -1548,6 +1548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cb9236a92dda446b817bbf37fbc3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1529091614}
+  fireTimer: 0.5
+  projectilePrefab: {fileID: 5773056959219828311, guid: b98224b8f8dfa4042aa01363122db6c9, type: 3}
+  strength: 2
   distanceTime: 1
   speed: 2
 --- !u!61 &1861580545
@@ -1603,7 +1607,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861580539}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
