@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int direction = 0;
+    [SerializeField] GameObject projectilePrefab;
+    private int direction = -1;
     public int speed;
     public float JumpHeight;
     public bool isJumping = false;
@@ -39,7 +40,16 @@ public class PlayerController : MonoBehaviour
             direction = moveBy < 0 ? -1 : 1;
              
         }
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameObject projectileObject = Instantiate(projectilePrefab,
+                rigidbody2D.position, Quaternion.identity);
+            Projectile projectile = projectileObject.GetComponent<Projectile>();
+            projectile.Launch(new Vector2(direction, 0), 300);
+
+        }
+
+
     }
 
     private void playAnimation(float moveBy)
