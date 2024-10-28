@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -9,12 +10,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image[] images;
     [SerializeField] TMP_Text ghostText;
     [SerializeField] GameObject projectilePrefab;
+    [SerializeField] TMP_Text deathText;
     private int direction = -1;
     public int speed;
     public float JumpHeight;
     public bool isJumping = false;
     private Animator animator;
     private Rigidbody2D rigidbody2D;
+    private int jumpCount = 0;
     int lives = 3;
     int ghosts = 0;
     int totalGhosts = -1;
@@ -40,12 +43,12 @@ public class PlayerController : MonoBehaviour
         position.x = position.x + speed * moveBy * Time.deltaTime;
         transform.position = position;
         playAnimation(moveBy);
-        if (!isJumping && Input.GetKeyDown(KeyCode.Space))
+        if (jumpCount <2  && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             rigidbody2D.velocity = Vector3.zero;
             rigidbody2D.AddForce(new Vector2(0, Mathf.Sqrt(-2 * Physics2D.gravity.y * JumpHeight)), ForceMode2D.Impulse);
-
+            jumpCount++;
         }
         if (moveBy != 0)
         {
@@ -59,6 +62,16 @@ public class PlayerController : MonoBehaviour
             Projectile projectile = projectileObject.GetComponent<Projectile>();
             projectile.Launch(new Vector2(direction, 0), 300);
 
+        }
+        if (lives == 0)
+        {
+            Time.timeScale = 0;
+            deathText.text = "You died! Press Enter to try again";
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Time.timeScale = 1;
+            }
         }
 
 
@@ -86,9 +99,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.collider.name.Contains("GhostBall"))
+        {
+            removeLife();
+        }
         if (isJumping)
         {
             isJumping = false;
+            jumpCount = 0;
         }
     }
 
