@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] TMP_Text ghostText;
     [SerializeField] GameObject projectilePrefab;
     private int direction = -1;
     public int speed;
     public float JumpHeight;
     public bool isJumping = false;
-    Animator animator;
-    Rigidbody2D rigidbody2D;
+    private Animator animator;
+    private Rigidbody2D rigidbody2D;
+    int ghosts = 0;
+    int totalGhosts = -1;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +22,10 @@ public class PlayerController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator.SetFloat("Move X",0);
         animator.SetFloat("Move Y",1);
+        if (totalGhosts == -1)
+        {
+            totalGhosts = GameObject.FindGameObjectsWithTag("Ghost").Length;
+        }
     }
 
     // Update is called once per frame
@@ -78,5 +86,10 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
+    }
+
+    public void AddGhost()
+    {
+        ghosts++;
     }
 }
