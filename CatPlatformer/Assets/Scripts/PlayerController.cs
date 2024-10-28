@@ -11,19 +11,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text ghostText;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] TMP_Text deathText;
+    
     private int direction = -1;
-    public int speed;
-    public float JumpHeight;
-    public bool isJumping = false;
     private Animator animator;
     private Rigidbody2D rigidbody2D;
     private int jumpCount = 0;
+
+    AudioSource source;
+    public AudioClip spell;
+
+    public int speed;
+    public float JumpHeight;
+    public bool isJumping = false;
+    
     int lives = 3;
     int ghosts = 0;
     int totalGhosts = -1;
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator.SetFloat("Move X",0);
@@ -57,10 +64,12 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
+            source.PlayOneShot(spell, 0.5f);
             GameObject projectileObject = Instantiate(projectilePrefab,
                 rigidbody2D.position, Quaternion.identity);
             Projectile projectile = projectileObject.GetComponent<Projectile>();
             projectile.Launch(new Vector2(direction, 0), 300);
+            
 
         }
         if (lives == 0)

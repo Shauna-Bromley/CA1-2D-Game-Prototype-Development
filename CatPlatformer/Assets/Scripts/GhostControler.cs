@@ -6,17 +6,22 @@ public class GhostControler : MonoBehaviour
 {
     [SerializeField] PlayerController player;
     [SerializeField] float fireTimer = 0.5f;
-    float fireCountdown = 0;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] int strength;
-    bool isAlive = true;
-    Animator animator;
+
     public float distanceTime;
     public float speed;
+
+    float fireCountdown = 0;
     float direction = -1;
     float timeInDirection;
     float timeToDie = 1;
     float deathTime = 1;
+    bool isAlive = true;
+    Animator animator;
+    
+    
+
     // Start is called before the first frame update
     void Start()
     {
