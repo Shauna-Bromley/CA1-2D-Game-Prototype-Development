@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Image[] images;
     [SerializeField] TMP_Text ghostText;
     [SerializeField] GameObject projectilePrefab;
     private int direction = -1;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool isJumping = false;
     private Animator animator;
     private Rigidbody2D rigidbody2D;
+    int lives = 3;
     int ghosts = 0;
     int totalGhosts = -1;
     // Start is called before the first frame update
@@ -93,5 +96,37 @@ public class PlayerController : MonoBehaviour
     {
         ghosts++;
         ghostText.text = ghosts + "/" + totalGhosts;
+    }
+
+    public void updateLivesUI()
+    {
+        switch (lives)
+        {
+            case 0:
+                images[0].enabled = false;
+                images[1].enabled = false;
+                images[2].enabled = false;
+                break;
+            case 1:
+                images[0].enabled = true;
+                images[1].enabled = false;
+                images[2].enabled = false;
+                break;
+            case 2:
+                images[0].enabled = true;
+                images[1].enabled = true;
+                images[2].enabled = false;
+                break;
+            case 3:
+                images[0].enabled = true;
+                images[1].enabled = true;
+                images[2].enabled = true;
+                break;
+        }
+    }
+    public void removeLife()
+    {
+        lives--;
+        updateLivesUI();
     }
 }

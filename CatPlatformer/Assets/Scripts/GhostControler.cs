@@ -13,7 +13,7 @@ public class GhostControler : MonoBehaviour
     Animator animator;
     public float distanceTime;
     public float speed;
-    float direction = 1;
+    float direction = -1;
     float timeInDirection;
     float timeToDie = 1;
     float deathTime = 1;
@@ -57,7 +57,8 @@ public class GhostControler : MonoBehaviour
             timeToDie -= Time.deltaTime;
             if (timeToDie < 0)
             {
-                animator.SetFloat("Move Y", 1);
+                animator.SetFloat("Move Y", direction);
+                animator.SetFloat("Move X", 0);
                 Destroy(gameObject);
                 player.AddGhost();
 
@@ -94,7 +95,9 @@ public class GhostControler : MonoBehaviour
         {
             isAlive = false;
             timeToDie = deathTime;
-            animator.SetFloat("Move Y", 1);
+            animator.SetFloat("Move Y",direction);
+            animator.SetFloat("Move X", 0);
+
         }
     }    
 
