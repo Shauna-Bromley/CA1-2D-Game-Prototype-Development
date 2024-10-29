@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text ghostText;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] TMP_Text deathText;
+    [SerializeField] TMP_Text pauseText;
     
     private int direction = -1;
     private Animator animator;
@@ -78,18 +79,20 @@ public class PlayerController : MonoBehaviour
             {
                 Time.timeScale = 1;
                 AudioListener.pause = false;
+                pauseText.text = string.Empty;
             }
             else
             {
                 Time.timeScale = 0;
                 AudioListener.pause = true;
+                pauseText.text = "Tutorial\r\n\r\nMovement: A & S or Left and Right arrow keys\r\n\r\nJump: Spacebar\r\n\r\nFire Spell: F \r\n\r\nPause: P \r\n\r\nCollect rats to regain health";
             }
         }
         
         if (lives == 0)
         {
             Time.timeScale = 0;
-            deathText.text = "You died! Press Enter to try again";
+            deathText.text = "You died!\nPress Enter to try again";
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -97,7 +100,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-
+        if (totalGhosts == ghosts)
+        {
+            SceneManager.LoadScene("End");
+        }
 
     }
 
