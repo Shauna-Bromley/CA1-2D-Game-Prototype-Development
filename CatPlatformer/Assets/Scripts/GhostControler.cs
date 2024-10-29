@@ -5,7 +5,7 @@ using UnityEngine;
 public class GhostControler : MonoBehaviour
 {
     [SerializeField] PlayerController player;
-    [SerializeField] float fireTimer = 0.5f;
+    [SerializeField] float fireTimer;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] int strength;
 

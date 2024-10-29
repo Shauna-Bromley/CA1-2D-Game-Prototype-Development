@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] TMP_Text deathText;
     [SerializeField] TMP_Text pauseText;
-    
+    [SerializeField] TMP_Text timerText;
+    float timeRemaining = 300;
+
     private int direction = -1;
     private Animator animator;
     private Rigidbody2D rigidbody2D;
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public int speed;
     public float JumpHeight;
     public bool isJumping = false;
+
     
     int lives = 3;
     int ghosts = 0;
@@ -46,11 +49,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timeRemaining > 0)
+        {
+            timeRemaining -= Time.deltaTime;
+        }
+        else if (timeRemaining < 0)
+        {
+            timeRemaining = 0;
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+        }
+        
+        int minutes = Mathf.FloorToInt(timeRemaining / 60);
+        int seconds = Mathf.FloorToInt(timeRemaining % 60);
+        timerText.text = string.Format("{0:0}:{1:00}",minutes,seconds);
+
         Vector2 position = transform.position;
         float moveBy = Input.GetAxis("Horizontal");
         position.x = position.x + speed * moveBy * Time.deltaTime;
         transform.position = position;
         playAnimation(moveBy);
+
         if (jumpCount <2  && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
@@ -85,7 +104,7 @@ public class PlayerController : MonoBehaviour
             {
                 Time.timeScale = 0;
                 AudioListener.pause = true;
-                pauseText.text = "Tutorial\r\n\r\nMovement: A & S or Left and Right arrow keys\r\n\r\nJump: Spacebar\r\n\r\nFire Spell: F \r\n\r\nPause: P \r\n\r\nCollect rats to regain health";
+                pauseText.text = "\n\nTutorial\r\n\r\nMovement: A & S or Left and Right arrow keys\r\n\r\nJump: Spacebar\r\n\r\nFire Spell: F \r\n\r\nPause: P \r\n\r\nCollect rats to regain health";
             }
         }
         
