@@ -89,6 +89,7 @@ public class GhostControler : MonoBehaviour
         if (col.collider.name.Contains("Spell"))
         {
             hit();
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
     }
 

@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
         if (col.collider.name.Contains("Ghost"))
         {
             removeLife();
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
 
         if (isJumping)
