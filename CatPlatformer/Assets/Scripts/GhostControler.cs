@@ -41,7 +41,7 @@ public class GhostControler : MonoBehaviour
             timeInDirection -= Time.deltaTime;
             if (timeInDirection < 0)
             {
-                direction = direction * -1;
+                direction *= -1;
                 timeInDirection = distanceTime;
                 animator.SetFloat("Move X", direction);
             }
