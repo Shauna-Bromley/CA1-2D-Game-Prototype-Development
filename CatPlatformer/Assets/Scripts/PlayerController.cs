@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text deathText;
     [SerializeField] TMP_Text pauseText;
     [SerializeField] TMP_Text timerText;
-    float timeRemaining = 300;
+    [SerializeField] PowerUps powerUps;
+
+    
 
     private int direction = -1;
     private Animator animator;
@@ -22,12 +26,12 @@ public class PlayerController : MonoBehaviour
 
     AudioSource source;
     public AudioClip spell;
-
     public int speed;
     public float JumpHeight;
     public bool isJumping = false;
 
-    
+    bool pickUpActive = false;
+    float timeRemaining = 300;
     int lives = 3;
     int ghosts = 0;
     int totalGhosts = -1;
@@ -146,28 +150,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void flyAnimation()
-    {
-        Vector2 position = transform.position;
-        double moveBy = Input.GetAxis("Vertical");
-        position.y = (float)(position.y + speed * moveBy * Time.deltaTime);
-        if (moveBy == 0)
-        {
-            animator.SetFloat("Move X", 0);
-        }
-        else if (moveBy < 0)
-        {
-            animator.SetFloat("Move X", -1);
-            animator.SetFloat("Move Y", (float)0.5);
-        }
-        else
-        {
-            animator.SetFloat("Move X", 1);
-            animator.SetFloat("Move Y", (float)-0.5);
-        }
-
-    }
-
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.collider.name.Contains("Ghost"))
@@ -225,5 +207,58 @@ public class PlayerController : MonoBehaviour
     {
         lives--;
         updateLivesUI();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Vector2 position = transform.position;
+        float moveBy = Input.GetAxis("Horizontal");
+        position.x = position.x + speed * moveBy * Time.deltaTime;
+        transform.position = position;
+        if (pickUpActive == false && other.gameObject.tag == "powerUp" && this.tag == "Player")
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                rigidbody2D.velocity = new Vector3(0,speed,0);
+                if (moveBy < 0)
+                {
+                    animator.SetFloat("Move X", -1);
+                    animator.SetFloat("Move Y", (float)0.5);
+                }
+                else if (moveBy > 0)
+                {
+                    animator.SetFloat("Move X", 1);
+                    animator.SetFloat("Move Y", (float)-0.5);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                rigidbody2D.velocity = new Vector3(0, -speed, 0);
+                if (moveBy < 0)
+                {
+                    animator.SetFloat("Move X", -1);
+                    animator.SetFloat("Move Y", (float)0.5);
+                }
+                else if (moveBy > 0)
+                {
+                    animator.SetFloat("Move X", 1);
+                    animator.SetFloat("Move Y", (float)-0.5);
+                }
+            }
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            StartCoroutine(Timer(2, other.gameObject));
+            Destroy(other.gameObject);
+            pickUpActive = true;
+        }
+    }
+
+    IEnumerator Timer(float time, GameObject thisGO)
+    {
+        yield return new WaitForSeconds(time);
+        if (pickUpActive)
+        {
+            pickUpActive = false;
+            GetComponent<Rigidbody2D>().gravityScale = 1;
+        }
     }
 }

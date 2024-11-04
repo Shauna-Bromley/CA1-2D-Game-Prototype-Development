@@ -13,7 +13,8 @@ public class PowerUps : MonoBehaviour
             StartCoroutine(Timer(2,other.gameObject));
             Destroy(this.gameObject);
             pickUpActive = true;
-            player.flyAnimation();
+            
+            
         }
     }
 
