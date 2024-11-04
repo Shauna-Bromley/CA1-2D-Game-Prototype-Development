@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rat
   - Ghost
+  - powerUp
   layers:
   - Default
   - TransparentFX

@@ -146,6 +146,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void flyAnimation()
+    {
+        Vector2 position = transform.position;
+        double moveBy = Input.GetAxis("Vertical");
+        position.y = (float)(position.y + speed * moveBy * Time.deltaTime);
+        if (moveBy == 0)
+        {
+            animator.SetFloat("Move X", 0);
+        }
+        else if (moveBy < 0)
+        {
+            animator.SetFloat("Move X", -1);
+            animator.SetFloat("Move Y", (float)0.5);
+        }
+        else
+        {
+            animator.SetFloat("Move X", 1);
+            animator.SetFloat("Move Y", (float)-0.5);
+        }
+
+    }
+
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.collider.name.Contains("Ghost"))
