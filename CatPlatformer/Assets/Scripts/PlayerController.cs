@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour
 
     AudioSource source;
     public AudioClip spell;
-    public int speed;
-    public float JumpHeight;
+    private int speed = 5;
+    private float JumpHeight = 2;
     public bool isJumping = false;
 
     float timeRemaining = 300;
