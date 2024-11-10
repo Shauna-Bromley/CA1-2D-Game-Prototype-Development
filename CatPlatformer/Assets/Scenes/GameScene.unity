@@ -20774,7 +20774,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 0.126691, g: 0.17178883, b: 0.6886792, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -21516,6 +21516,7 @@ MonoBehaviour:
   deathText: {fileID: 1160737410}
   pauseText: {fileID: 2048917853}
   timerText: {fileID: 1933890092}
+  powerUps: {fileID: 0}
   spell: {fileID: 8300000, guid: e5da1d71fbfd68c408891f672c55566b, type: 3}
   speed: 5
   JumpHeight: 2

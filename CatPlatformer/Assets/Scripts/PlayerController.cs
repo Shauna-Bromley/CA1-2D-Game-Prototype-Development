@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text deathText;
     [SerializeField] TMP_Text pauseText;
     [SerializeField] TMP_Text timerText;
-    [SerializeField] PowerUps powerUps;
 
     
 
@@ -30,12 +29,10 @@ public class PlayerController : MonoBehaviour
     public float JumpHeight;
     public bool isJumping = false;
 
-    bool pickUpActive = false;
     float timeRemaining = 300;
     int lives = 3;
     int ghosts = 0;
     int totalGhosts = -1;
-    // Start is called before the first frame update
     void Start()
     {
         source = GetComponent<AudioSource>();
@@ -53,6 +50,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Third-Party Code: [https://www.youtube.com/watch?v=POq1i8FyRyQ&list=PLQw75EK0UKKAwWK18gXvz7fvvwCB5n-ue&ab_channel=RehopeGames]
+        //The below code was used to make a timer that counts down from 5 minutes 
+        //It sets the time remaining to zero if the time remaining goes below zero
+        //If this isn't set then the timer will keep going below zero
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -96,6 +97,9 @@ public class PlayerController : MonoBehaviour
             
 
         }
+        //Third Party Code: [https://www.youtube.com/watch?v=ROwsdftEGF0&list=PLQw75EK0UKKAwWK18gXvz7fvvwCB5n-ue&index=3&ab_channel=GameDevBeginner]
+        //I learned about the concept of Time scale from the above video to allow the game to pause
+        //correctly and allow me to show up a message during the pause screen
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (Time.timeScale == 0)
@@ -207,58 +211,5 @@ public class PlayerController : MonoBehaviour
     {
         lives--;
         updateLivesUI();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Vector2 position = transform.position;
-        float moveBy = Input.GetAxis("Horizontal");
-        position.x = position.x + speed * moveBy * Time.deltaTime;
-        transform.position = position;
-        if (pickUpActive == false && other.gameObject.tag == "powerUp" && this.tag == "Player")
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                rigidbody2D.velocity = new Vector3(0,speed,0);
-                if (moveBy < 0)
-                {
-                    animator.SetFloat("Move X", -1);
-                    animator.SetFloat("Move Y", (float)0.5);
-                }
-                else if (moveBy > 0)
-                {
-                    animator.SetFloat("Move X", 1);
-                    animator.SetFloat("Move Y", (float)-0.5);
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                rigidbody2D.velocity = new Vector3(0, -speed, 0);
-                if (moveBy < 0)
-                {
-                    animator.SetFloat("Move X", -1);
-                    animator.SetFloat("Move Y", (float)0.5);
-                }
-                else if (moveBy > 0)
-                {
-                    animator.SetFloat("Move X", 1);
-                    animator.SetFloat("Move Y", (float)-0.5);
-                }
-            }
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-            StartCoroutine(Timer(2, other.gameObject));
-            Destroy(other.gameObject);
-            pickUpActive = true;
-        }
-    }
-
-    IEnumerator Timer(float time, GameObject thisGO)
-    {
-        yield return new WaitForSeconds(time);
-        if (pickUpActive)
-        {
-            pickUpActive = false;
-            GetComponent<Rigidbody2D>().gravityScale = 1;
-        }
     }
 }
